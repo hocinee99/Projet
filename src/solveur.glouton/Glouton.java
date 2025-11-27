@@ -8,7 +8,6 @@ import sacADos.Objet;
 import sacADos.SacADos;
 
 public class Glouton {
-
     public static List<Objet> gloutonAjouter(SacADos sac) {
         List<Objet> selection = new ArrayList<>();
         List<Objet> objets = sac.getObjets();

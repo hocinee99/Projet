@@ -4,16 +4,16 @@ import java.util.*;
 
 public class SacADos {
 
-    private int dimension;
-    private int[] budgets;
+    private final int dimension;
+    private final int[] budgets;
     List<Objet> objets;
 
-    public SacADos(int dimension, int[] budgets) {
-        this.dimension = dimension;
-        if (budgets != null && budgets.length == dimension) {
+    public SacADos(int[] budgets) {
+        if (budgets != null) {
             this.budgets = budgets;
+            this.dimension = budgets.length;
         } else {
-            throw new IllegalArgumentException("Le tableau de budgets doit avoir exactement " + dimension + " valeurs.");
+            throw new IllegalArgumentException("Le tableau budgets ne doit pas etre vide");
         }
         this.objets = new ArrayList<>();
     }
@@ -38,17 +38,19 @@ public class SacADos {
     public List<Objet> getObjets() {
         return objets;
     }
+    public boolean respecteContraintes(List<Objet> liste) {
+        int[] couts = new int[dimension];
 
-    public void setDimension(int dimension) {
-        this.dimension = dimension;
-    }
-
-    public void setBudget(int[] budgets) {
-        if (budgets != null && budgets.length == dimension) {
-            this.budgets = budgets;
-        } else {
-            throw new IllegalArgumentException("Le tableau de budgets doit avoir exactement " + dimension + " valeurs.");
+        for (Objet o : liste) {
+            for (int i = 0; i < dimension; i++) {
+                couts[i] += o.getCouts()[i];
+                if (couts[i] > budgets[i]) {
+                    return false;
+                }
+            }
         }
+        return true;
     }
+
 
 }
