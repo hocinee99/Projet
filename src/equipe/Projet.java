@@ -10,17 +10,13 @@ public class Projet {
     private double cout_environnemental;
 
     public Projet(String titre, String description, Secteur secteur) {
+        if(secteur ==null){
+            throw new IllegalArgumentException("Le secteur ne peut pas etre nul");
+        }
         this.titre = titre;
         this.description = description;
         this.secteur = secteur;
     }
-
-
-
-
-
-
-
 
 
     // Setters pour les couts et le bénéfice :
@@ -30,16 +26,31 @@ public class Projet {
         this.benefice = benefice;
     }
 
-    public void setCout_economique(double cout_economique) {
-        this.cout_economique = cout_economique;
+    public void setCout_economique(double cout_economique)throws IllegalArgumentException {
+        if(cout_economique<0){
+            throw new IllegalArgumentException("Le cout ne peut pas etre négatif");
+        }
+        else{
+            this.cout_economique = cout_economique;
+        }
     }
 
-    public void setCout_social(double cout_social) {
-        this.cout_social = cout_social;
+    public void setCout_social(double cout_social)throws IllegalArgumentException {
+        if(cout_social<0){
+            throw new IllegalArgumentException("Le cout ne peut pas etre négatif");
+        }
+        else{
+            this.cout_social= cout_social;
+        }
     }
 
-    public void setCout_environnemental(double cout_environnemental) {
-        this.cout_environnemental = cout_environnemental;
+    public void setCout_environnemental(double cout_environnemental)throws IllegalArgumentException {
+        if(cout_environnemental<0){
+            throw new IllegalArgumentException("Le cout ne peut pas etre négatif");
+        }
+        else{
+            this.cout_environnemental=cout_environnemental;
+        }
     }
     // Getters:
     public String getTitre() {

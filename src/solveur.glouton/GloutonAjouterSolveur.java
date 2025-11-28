@@ -16,14 +16,14 @@ public class GloutonAjouterSolveur {
                     peutAjouter=false;
                     break;
                 }
+            }
                 if(peutAjouter){
                     sol.add(o);
-                    for(int j=0;i<k;i++){
-                        coutsTotaux[i]+=couts[i];
+                    for(int j=0;j<k;j++){
+                        coutsTotaux[j]+=couts[j];
                     }
                 }
             }
-        }
     return sol;
     }
 

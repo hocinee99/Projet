@@ -15,13 +15,17 @@ public class ComparatorMax implements Comparator<Objet> {
     public double fmax(Objet o) {
         int ui = o.getUtilite();
         int[] couts = o.getCouts();
-        int max = 0;
+        int max = Integer.MIN_VALUE;
         for (int cout : couts) {
             if (cout > max) {
                 max = cout;
             }
         }
-        return (double)((double)ui/(double)max);
+        if(max==0) {
+            return 0;
+        }
+        else{
+            return (double)ui/max;
+        }
     }
-
 }

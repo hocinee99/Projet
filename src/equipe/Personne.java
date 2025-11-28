@@ -9,7 +9,7 @@ public abstract class Personne {
     public Personne(String nom, String prenom, int age) {
         this.nom = nom;
         this.prenom = prenom;
-        this.age = age;
+        this.setAge(age);
     }
 
     public String getNom() {
@@ -24,8 +24,12 @@ public abstract class Personne {
         return prenom;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
+    public void setAge(int age) throws IllegalArgumentException {
+        if(age<0){
+            throw new IllegalArgumentException("L'age ne peut pas etre négatif");
+        }
+        else{
+            this.age = age;
+            }
+        }
 }

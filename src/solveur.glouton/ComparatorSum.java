@@ -16,6 +16,6 @@ public class ComparatorSum implements Comparator<Objet> {
         for(int cout : o.getCouts()){
             sum+=cout;
         }
-        return (double)((double)ui/(double)sum);
+        return (sum==0) ? 0 : (double)ui/sum;
     }
 }

@@ -39,15 +39,14 @@ public class ComparatorMV implements Comparator<Objet> {
                     L.add(d);
                 }
             }
-            int CoutMax=0;
+            int coutMax=0;
             int[] coutsO = o.getCouts();
             for(int dim : L){
-                if(coutsO[dim]>CoutMax){
-                    CoutMax=coutsO[dim];
+                if(coutsO[dim]>coutMax){
+                    coutMax=coutsO[dim];
                 }
             }
-
-                return (double) ui/(double) CoutMax;
+            return (coutMax==0) ? 0 : (double) ui/coutMax;
 
     }
 }
