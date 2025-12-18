@@ -1,19 +1,40 @@
 package solveurHillclimbing;
 
-import sacADos.SacADos;
-import sacADos.Objet;
 import java.util.*;
+import sacADos.Objet;
+import sacADos.SacADos;
 
+/**
+ * Hill Climbing solver for the {@link SacADos} problem.
+ *
+ * This class implements a local search heuristic to improve an initial
+ * solution. It provides two variants: 1. Deterministic hill climbing (resoudre)
+ * 2. Randomized hill climbing (resoudreAleatoire)
+ *
+ * Author: Moufdi Version: 1.0
+ */
 public class HillClimbing {
 
     private SacADos probleme;
     private Random random;
 
+    /**
+     * Constructs a HillClimbing solver for a given SacADos problem.
+     *
+     * @param probleme the SacADos problem to solve
+     */
     public HillClimbing(SacADos probleme) {
         this.probleme = probleme;
         this.random = new Random();
     }
 
+    /**
+     * Solves the SacADos problem using deterministic hill climbing. It
+     * iteratively adds or exchanges items to improve total utility.
+     *
+     * @param solutionInitiale the initial solution
+     * @return a locally optimal solution
+     */
     public List<Objet> resoudre(List<Objet> solutionInitiale) {
         List<Objet> solutionCourante = new ArrayList<>(solutionInitiale);
         int utiliteCourante = calculerUtiliteTotale(solutionCourante);
@@ -31,7 +52,7 @@ public class HillClimbing {
             // S'= S U {a} 
             for (Objet ajout : objetsNonInclus) {
                 if (estAjoutValide(solutionCourante, ajout)) {
-                    if (ajout.getUtilite()>meilleurGain) {
+                    if (ajout.getUtilite() > meilleurGain) {
                         meilleurGain = ajout.getUtilite();
                         meilleurVoisin = new ArrayList<>(solutionCourante);
                         meilleurVoisin.add(ajout);
@@ -44,10 +65,10 @@ public class HillClimbing {
             for (Objet retrait : solutionCourante) {
                 for (Objet ajout : objetsNonInclus) {
                     // Calcul du gain potentiel : Utilité Ajout - Utilité Retrait
-                    int gainPotentiel=ajout.getUtilite()-retrait.getUtilite();
+                    int gainPotentiel = ajout.getUtilite() - retrait.getUtilite();
 
                     // On ne teste la validité que si le gain est intéressant
-                    if (gainPotentiel>meilleurGain) {
+                    if (gainPotentiel > meilleurGain) {
                         if (estEchangeValide(solutionCourante, retrait, ajout)) {
                             meilleurGain = gainPotentiel;
                             meilleurVoisin = new ArrayList<>(solutionCourante);
@@ -58,100 +79,106 @@ public class HillClimbing {
                 }
             }
 
-            if (meilleurVoisin!=null) {
-                solutionCourante=meilleurVoisin;
-                utiliteCourante+=meilleurGain;
+            if (meilleurVoisin != null) {
+                solutionCourante = meilleurVoisin;
+                utiliteCourante += meilleurGain;
                 ameliorationTrouvee = true;
-                System.out.println("Amélioration trouvée:"+ utiliteCourante);
+                System.out.println("Amélioration trouvée:" + utiliteCourante);
             }
         }
 
         return solutionCourante; // C'est un optimum local
     }
 
-
-
     // version 2 : random (La variante )
+    /**
+     * Randomized hill climbing version. Tries a fixed number of neighbors
+     * randomly to escape small local optima.
+     *
+     * @param solutionInitiale the initial solution
+     * @param nbVoisinsMax maximum number of neighbors to evaluate per iteration
+     * @return a locally optimal solution
+     */
     public List<Objet> resoudreAleatoire(List<Objet> solutionInitiale, int nbVoisinsMax) {
-    List<Objet> solutionCourante = new ArrayList<>(solutionInitiale);
-    boolean ameliorationTrouvee = true;
+        List<Objet> solutionCourante = new ArrayList<>(solutionInitiale);
+        boolean ameliorationTrouvee = true;
 
-    while (ameliorationTrouvee) {
-        ameliorationTrouvee = false;
-        
-        List<Objet> meilleurVoisinEchantillon = null;
-        int meilleurGain = 0;
+        while (ameliorationTrouvee) {
+            ameliorationTrouvee = false;
 
-        List<Objet> objetsNonInclus = getObjetsNonInclus(solutionCourante);
-        
-        // On boucle le nombre de fois demandé par le paramètre
-        for (int i=0;i<nbVoisinsMax;i++) {
+            List<Objet> meilleurVoisinEchantillon = null;
+            int meilleurGain = 0;
 
-            // on tire au sort : 0=>(tentative d'ajout) , 1=> (tentative d'échange)
-            boolean tentativeAjout = random.nextBoolean(); 
-            
-            // cas aleatoire 1: ajout 
-            if (tentativeAjout && !objetsNonInclus.isEmpty()) {
-                Objet objAjout = objetsNonInclus.get(random.nextInt(objetsNonInclus.size()));
-                if (estAjoutValide(solutionCourante, objAjout)) {
-                    if (objAjout.getUtilite() > meilleurGain) {
-                        meilleurGain = objAjout.getUtilite();
-                        meilleurVoisinEchantillon = new ArrayList<>(solutionCourante);
-                        meilleurVoisinEchantillon.add(objAjout);}
-                }
-            } 
-            // cas 2 (echange)
-            else if (!solutionCourante.isEmpty() && !objetsNonInclus.isEmpty()) {
-                Objet objRetrait = solutionCourante.get(random.nextInt(solutionCourante.size()));
-                Objet objAjout = objetsNonInclus.get(random.nextInt(objetsNonInclus.size()));
-                
-                int gain=objAjout.getUtilite()-objRetrait.getUtilite();
-                if (gain> meilleurGain) {
-                    if (estEchangeValide(solutionCourante, objRetrait, objAjout)) {
-                        meilleurGain = gain;
-                        meilleurVoisinEchantillon = new ArrayList<>(solutionCourante);
-                        meilleurVoisinEchantillon.remove(objRetrait);
-                        meilleurVoisinEchantillon.add(objAjout);}
+            List<Objet> objetsNonInclus = getObjetsNonInclus(solutionCourante);
+
+            // On boucle le nombre de fois demandé par le paramètre
+            for (int i = 0; i < nbVoisinsMax; i++) {
+
+                // on tire au sort : 0=>(tentative d'ajout) , 1=> (tentative d'échange)
+                boolean tentativeAjout = random.nextBoolean();
+
+                // cas aleatoire 1: ajout 
+                if (tentativeAjout && !objetsNonInclus.isEmpty()) {
+                    Objet objAjout = objetsNonInclus.get(random.nextInt(objetsNonInclus.size()));
+                    if (estAjoutValide(solutionCourante, objAjout)) {
+                        if (objAjout.getUtilite() > meilleurGain) {
+                            meilleurGain = objAjout.getUtilite();
+                            meilleurVoisinEchantillon = new ArrayList<>(solutionCourante);
+                            meilleurVoisinEchantillon.add(objAjout);
+                        }
+                    }
+                } // cas 2 (echange)
+                else if (!solutionCourante.isEmpty() && !objetsNonInclus.isEmpty()) {
+                    Objet objRetrait = solutionCourante.get(random.nextInt(solutionCourante.size()));
+                    Objet objAjout = objetsNonInclus.get(random.nextInt(objetsNonInclus.size()));
+
+                    int gain = objAjout.getUtilite() - objRetrait.getUtilite();
+                    if (gain > meilleurGain) {
+                        if (estEchangeValide(solutionCourante, objRetrait, objAjout)) {
+                            meilleurGain = gain;
+                            meilleurVoisinEchantillon = new ArrayList<>(solutionCourante);
+                            meilleurVoisinEchantillon.remove(objRetrait);
+                            meilleurVoisinEchantillon.add(objAjout);
+                        }
+                    }
                 }
             }
+
+            // sii dans notre echantillon aléatoire on a trouvé mieux , on se déplace
+            if (meilleurVoisinEchantillon != null) {
+                solutionCourante = meilleurVoisinEchantillon;
+                ameliorationTrouvee = true;
+                System.out.println("voisin aléatoire trouvé avec gain:" + meilleurGain);
+            }
         }
-
-        // sii dans notre echantillon aléatoire on a trouvé mieux , on se déplace
-        if (meilleurVoisinEchantillon!=null) {
-            solutionCourante = meilleurVoisinEchantillon;
-            ameliorationTrouvee = true;
-            System.out.println("voisin aléatoire trouvé avec gain:"+meilleurGain);
-        }
+        return solutionCourante;
     }
-    return solutionCourante;
-    }
-
-
-
-
 
     private boolean estAjoutValide(List<Objet> solution, Objet aAjouter) {
         int[] budgets = probleme.getBudgets();
         int nbDimensions = budgets.length;
         int[] coutsActuels = sommeCouts(solution);
 
-        for (int i = 0;i <nbDimensions;i++) {
-            if (coutsActuels[i]+aAjouter.getCouts()[i] > budgets[i]) {
-                return false;}
+        for (int i = 0; i < nbDimensions; i++) {
+            if (coutsActuels[i] + aAjouter.getCouts()[i] > budgets[i]) {
+                return false;
+            }
         }
         return true;
     }
 
-
     private boolean estEchangeValide(List<Objet> solution, Objet retrait, Objet ajout) {
         int[] budgets = probleme.getBudgets();
         int nbDimensions = budgets.length;
-        
+
         int[] coutsActuels = sommeCouts(solution);
 
-        for (int i = 0; i <nbDimensions; i++) {
-            int nouveauCout = coutsActuels[i]-retrait.getCouts()[i] + ajout.getCouts()[i];
-            if (nouveauCout>budgets[i]) {return false;}}
+        for (int i = 0; i < nbDimensions; i++) {
+            int nouveauCout = coutsActuels[i] - retrait.getCouts()[i] + ajout.getCouts()[i];
+            if (nouveauCout > budgets[i]) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -163,16 +190,20 @@ public class HillClimbing {
 
     private int calculerUtiliteTotale(List<Objet> solution) {
         int total = 0;
-        for (Objet o : solution)
-             {total+= o.getUtilite();}
-        return total;}
+        for (Objet o : solution) {
+            total += o.getUtilite();
+        }
+        return total;
+    }
 
     private int[] sommeCouts(List<Objet> solution) {
         int nbDimensions = probleme.getBudgets().length;
         int[] total = new int[nbDimensions];
         for (Objet o : solution) {
-            for (int i = 0; i<nbDimensions; i++) {
-                total[i]+= o.getCouts()[i];}}
+            for (int i = 0; i < nbDimensions; i++) {
+                total[i] += o.getCouts()[i];
+            }
+        }
         return total;
     }
 }
