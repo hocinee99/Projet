@@ -7,7 +7,26 @@ import java.util.List;
 import sacADos.Objet;
 import sacADos.SacADos;
 
+/**
+ * Provides greedy algorithms to select items for a SacADos problem.
+ *
+ * The class contains methods to add or remove items based on a greedy strategy:
+ * - Items are sorted according to a utility-to-cost ratio. - Items are added if
+ * they fit within the remaining budgets. - Items are removed if they cause
+ * budget violations.
+ *
+ * @author Slimane
+ * @version
+ */
 public class Glouton {
+
+    /**
+     * Selects items to add to the SacADos using a greedy strategy. Items are
+     * sorted by utility-to-cost ratio in descending order.
+     *
+     * @param sac the SacADos containing items and budgets
+     * @return a list of items selected to fit in the SacADos
+     */
     public static List<Objet> gloutonAjouter(SacADos sac) {
         List<Objet> selection = new ArrayList<>();
         List<Objet> objets = sac.getObjets();
@@ -38,6 +57,12 @@ public class Glouton {
         return selection;
     }
 
+    /**
+     * Computes the utility-to-total-cost ratio of an item.
+     *
+     * @param O the item to evaluate
+     * @return the ratio of utility to the sum of costs
+     */
     public static double Comparaison_fun(Objet O) {
         int somme = 0;
         for (int i = 0; i < O.getCouts().length; i++) {
@@ -46,6 +71,12 @@ public class Glouton {
         return (somme == 0.0) ? 0.0 : (double) O.getUtilite() / somme;
     }
 
+    /**
+     * Selects items to remove from the SacADos using a greedy strategy
+     *
+     * @param sac the SacADos containing items and budgets
+     * @return a list of items after removing those that exceed budgets
+     */
     public static List<Objet> gloutonRetirer(SacADos sac) {
         List<Objet> selection = new ArrayList<>(sac.getObjets());
 
