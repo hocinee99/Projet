@@ -99,4 +99,11 @@ public class SacADos {
         }
         return true;
     }
+    public int utiliteTotale(List<Objet> sol){
+        int utilTot=0;
+        for(Objet o : sol){
+            utilTot+=o.getUtilite();
+        }
+        return utilTot;
+    }
 }
