@@ -23,14 +23,19 @@ public class SacADos {
      * @throws IllegalArgumentException if the budgets array is null
      */
     public SacADos(int[] budgets) {
-        if (budgets != null) {
-            this.budgets = budgets;
-            this.dimension = budgets.length;
-        } else {
-            throw new IllegalArgumentException("Le tableau budgets ne doit pas etre vide");
+        if (budgets == null) {
+            throw new IllegalArgumentException("Le tableau budgets ne doit pas être vide");
         }
+        for (int budget : budgets) {
+            if (budget < 0) {
+                throw new IllegalArgumentException("Les budgets ne doivent pas être négatifs");
+            }
+        }
+        this.budgets = budgets;
+        this.dimension = budgets.length;
         this.objets = new ArrayList<>();
     }
+
 
     /**
      * Adds an object to the sacados if its costs match the sacados dimension.

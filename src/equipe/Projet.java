@@ -12,10 +12,10 @@ public class Projet {
     private String titre;
     private String description;
     private final Secteur secteur;
-    private double benefice;
-    private double cout_economique;
-    private double cout_social;
-    private double cout_environnemental;
+    private int benefice;
+    private int cout_economique;
+    private int cout_social;
+    private int cout_environnemental;
 
     /**
      * Constructor of the Projet class, with it we initialize the attributes of
@@ -40,7 +40,7 @@ public class Projet {
      *
      * @param benefice the benefice to set
      */
-    public void setBenefice(double benefice) {
+    public void setBenefice(int benefice) {
         this.benefice = benefice;
     }
 
@@ -50,7 +50,7 @@ public class Projet {
      * @param cout_economique the economic cost to set
      * @throws IllegalArgumentException if the cost is negative
      */
-    public void setCout_economique(double cout_economique) throws IllegalArgumentException {
+    public void setCout_economique(int cout_economique) throws IllegalArgumentException {
         if (cout_economique < 0) {
             throw new IllegalArgumentException("Le cout ne peut pas etre négatif");
         } else {
@@ -64,7 +64,7 @@ public class Projet {
      * @param cout_social the social cost to set
      * @throws IllegalArgumentException if the cost is negative
      */
-    public void setCout_social(double cout_social) throws IllegalArgumentException {
+    public void setCout_social(int cout_social) throws IllegalArgumentException {
         if (cout_social < 0) {
             throw new IllegalArgumentException("Le cout ne peut pas etre négatif");
         } else {
@@ -78,7 +78,7 @@ public class Projet {
      * @param cout_environnemental the environmental cost to set
      * @throws IllegalArgumentException if the cost is negative
      */
-    public void setCout_environnemental(double cout_environnemental) throws IllegalArgumentException {
+    public void setCout_environnemental(int cout_environnemental) throws IllegalArgumentException {
         if (cout_environnemental < 0) {
             throw new IllegalArgumentException("Le cout ne peut pas etre négatif");
         } else {
@@ -119,7 +119,7 @@ public class Projet {
      *
      * @return the benefice of the project
      */
-    public double getBenefice() {
+    public int getBenefice() {
         return benefice;
     }
 
@@ -128,7 +128,7 @@ public class Projet {
      *
      * @return the economic cost of the project
      */
-    public double getCout_economique() {
+    public int getCout_economique() {
         return cout_economique;
     }
 
@@ -137,7 +137,7 @@ public class Projet {
      *
      * @return the social cost of the project
      */
-    public double getCout_social() {
+    public int getCout_social() {
         return cout_social;
     }
 
@@ -146,7 +146,7 @@ public class Projet {
      *
      * @return the environmental cost of the project
      */
-    public double getCout_environnemental() {
+    public int getCout_environnemental() {
         return cout_environnemental;
     }
 }

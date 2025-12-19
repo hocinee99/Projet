@@ -2,7 +2,6 @@ package equipe;
 
 /**
  * Represents a municipal team responsible for evaluating and managing projects.
- *
  * A municipal team consists of:
  * <ul>
  * <li>An elU ({@link Elu}) who evaluates the overall benefit of projects</li>

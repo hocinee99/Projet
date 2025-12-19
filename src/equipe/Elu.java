@@ -1,8 +1,8 @@
 package equipe;
 
 /**
- * An elu is a {@link Person} who evaluates the economic benefit of a
- * {@link Project}.
+ * An elu is a {@link Personne} who evaluates the economic benefit of a
+ * {@link Projet}.
  *
  * @author Hocine
  * @version 1.0
@@ -26,11 +26,9 @@ public class Elu extends Personne {
      * used to evaluate the economic benefit of a project.
      *
      * @param p the project to evaluate
-     * @return the economic benefit of the project
      */
-    public double evaluerBenefice(Projet p) {
-        double benef = Math.random() * 10000;
+    public void evaluerBenefice(Projet p) {
+        int benef =(int) (Math.random() * 10000);
         p.setBenefice(benef);
-        return benef;
     }
 }
