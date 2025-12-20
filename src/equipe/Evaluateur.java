@@ -37,11 +37,11 @@ public class Evaluateur extends Personne {
     public void evaluerCout(Projet p) {
         int cout =(int) (Math.random() * 100);
         switch (specialisation) {
-            case economique ->
+            case economique:
                 p.setCout_economique(cout);
-            case social ->
+            case social:
                 p.setCout_social(cout);
-            case environnemental ->
+            case environnemental:
                 p.setCout_environnemental(cout);
         }
     }

@@ -80,6 +80,6 @@ class TestGloutonAjouterSolveur {
         List<Objet> solution = solveur.resoudre(sac, new ComparatorMax());
         // Assert
         Assertions.assertEquals(2, solution.size());
-        Assertions.assertEquals(o4, solution.getFirst());
+        Assertions.assertEquals(o4, solution.get(0));
     }
 }
