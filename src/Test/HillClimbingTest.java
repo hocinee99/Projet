@@ -12,41 +12,65 @@ import org.junit.jupiter.api.Test;
 import sacADos.*;
 import solveurHillclimbing.HillClimbing;
 
+/**
+ * Test class for {@link HillClimbing}. This class verifies the correct behavior
+ * of the Hill Climbing algorithm in various scenarios, including:
+ * <ul>
+ * <li>Local plateaus</li>
+ * <li>Multi-dimensional knapsack problems</li>
+ * <li>Local maxima</li>
+ * <li>Already optimal solutions</li>
+ * <li>Saturated constraints</li>
+ * </ul>
+ *
+ * @author Hocine
+ * @version 1.0
+ *
+ */
 public class HillClimbingTest {
+
     private HillClimbing hillClimbing;
     private SacADos sac1D, sac2D;
     private Objet o1, o2, o3, o4, o5, o6;
 
+    /**
+     * Sets up the test environment before each test
+     */
     @BeforeEach
     public void init() {
-        o1 = new Objet( 5, new int[]{3});
+        o1 = new Objet(5, new int[]{3});
         o2 = new Objet(5, new int[]{3});
         o3 = new Objet(5, new int[]{3});
         o4 = new Objet(1, new int[]{1});
-        sac1D = new SacADos(new int[] {6});
+        sac1D = new SacADos(new int[]{6});
         sac1D.addObjet(o1);
         sac1D.addObjet(o2);
         sac1D.addObjet(o3);
         sac1D.addObjet(o4);
         o5 = new Objet(4, new int[]{2, 1});
         o6 = new Objet(4, new int[]{1, 2});
-        sac2D = new SacADos( new int[]{3, 3});
+        sac2D = new SacADos(new int[]{3, 3});
         sac2D.addObjet(o5);
         sac2D.addObjet(o6);
 
     }
+
+    /**
+     * Cleans up the test environment after each test
+     */
     @AfterEach
-    public void tearDown(){
-    o1=null;
-    o2=null;
-    o3=null;
-    o4=null;
-    o5=null;
-    o6=null;
-    sac1D=null;
-    sac2D=null;
-    hillClimbing=null;
+    public void tearDown() {
+        o1 = null;
+        o2 = null;
+        o3 = null;
+        o4 = null;
+        o5 = null;
+        o6 = null;
+        sac1D = null;
+        sac2D = null;
+        hillClimbing = null;
     }
+
     // Test plateau local (aucun voisin meilleur)
     @Test
     public void resoudre_PlateauLocal() {

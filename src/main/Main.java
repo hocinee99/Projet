@@ -1,19 +1,35 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
 import sacADos.*;
 import solveur.glouton.ComparatorSum;
 import solveur.glouton.GloutonAjouterSolveur;
 import solveurHillclimbing.HillClimbing;
 
+/**
+ * Main class of the project, it contains the main method to run the
+ * application.
+ * <ul>
+ * <li>User interaction through a console menu</li>
+ * <li>Generation or loading of knapsack problem instances</li>
+ * <li>Resolution using a greedy algorithm</li>
+ * <li>Solution improvement using Hill Climbing</li>
+ * </ul>
+ *
+ * @author Moufdi
+ * @version 1.0
+ */
 public class Main {
 
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Main method to run the application.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         System.out.println("=== APPLICATION GESTION BUDGET DAUPHINE CITY ===");
         boolean running = true;
@@ -57,7 +73,9 @@ public class Main {
         if (sourceChoix == 2) {
             System.out.println("Veuillez entrer le chemin du fichier  :");
             String chemin = scanner.nextLine();
-            if(chemin.isEmpty()) chemin = scanner.nextLine();
+            if (chemin.isEmpty()) {
+                chemin = scanner.nextLine();
+            }
 
             try {
                 probleme = VersSacADos.creerSacAvecFichier(chemin);
@@ -80,7 +98,9 @@ public class Main {
         System.out.println("Nombre d'objets : " + probleme.getObjets().size());
         System.out.println("Nombre de contraintes (dimensions) : " + probleme.getBudgets().length);
         System.out.print("Budgets : [ ");
-        for(int b : probleme.getBudgets()) System.out.print(b + " ");
+        for (int b : probleme.getBudgets()) {
+            System.out.print(b + " ");
+        }
         System.out.println("]");
 
         // 2. Résolution Gloutonne (Solution Initiale)
@@ -105,7 +125,7 @@ public class Main {
         List<Objet> solutionFinale;
         long debut = System.currentTimeMillis();
 
-        if (typeHC==2) {
+        if (typeHC == 2) {
             int k = readEntier("Nombre de voisins à tester à chaque étape : ");
             solutionFinale = hc.resoudreAleatoire(solutionInitiale, k);
         } else {
@@ -121,7 +141,7 @@ public class Main {
         System.out.println("Utilité Glouton : " + scoreGlouton);
         System.out.println("Utilité Hill Climbing : " + scoreFinal);
 
-        int gain = scoreFinal-scoreGlouton;
+        int gain = scoreFinal - scoreGlouton;
         if (gain > 0) {
             System.out.println("BRAVO ! Gain d'utilité : +" + gain);
         } else {
@@ -130,7 +150,6 @@ public class Main {
     }
 
     // methodes 
-
     private static int readEntier(String message) {
         int valeur = 0;
         boolean valide = false;
@@ -149,9 +168,10 @@ public class Main {
     }
 
     private static int calculerScore(List<Objet> solution) {
-        int score= 0;
+        int score = 0;
         for (Objet o : solution) {
-            score+= o.getUtilite();}
+            score += o.getUtilite();
+        }
         return score;
     }
 
@@ -160,14 +180,17 @@ public class Main {
         int nbObjets = 50;
         int[] budgets = new int[nbDimensions];
 
-        for(int i=0; i<nbDimensions; i++){ budgets[i] = 50 + rand.nextInt(150);}
+        for (int i = 0; i < nbDimensions; i++) {
+            budgets[i] = 50 + rand.nextInt(150);
+        }
 
         SacADos sac = new SacADos(budgets);
         for (int i = 0; i < nbObjets; i++) {
             int utilite = 10 + rand.nextInt(90);
             int[] couts = new int[nbDimensions];
             for (int j = 0; j < nbDimensions; j++) {
-                couts[j] = rand.nextInt(30);}
+                couts[j] = rand.nextInt(30);
+            }
 
             Objet o = new Objet(utilite, couts);
             sac.addObjet(o);

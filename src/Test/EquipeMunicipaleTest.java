@@ -8,7 +8,19 @@ import org.junit.jupiter.api.Assertions;
 
 import java.util.ArrayList;
 
+/**
+ * Test class for {@link EquipeMunicipale}. This class verifies the correct
+ * behavior of the municipal team during a simulation cycle, including:
+ * <ul>
+ * <li>Project creation</li>
+ * <li>Validity of costs and benefits</li>
+ * </ul>
+ *
+ * @author Hocine
+ * @version 1.0
+ */
 class EquipeMunicipaleTest {
+
     private Elu elu;
     private Expert e1;
     private Expert e2;
@@ -18,6 +30,9 @@ class EquipeMunicipaleTest {
     private Evaluateur ev3;
     private EquipeMunicipale eq;
 
+    /**
+     * Sets up the test environment before each test
+     */
     @BeforeEach
     void setUp() {
         elu = new Elu("Computing", "Claude", 19);
@@ -35,6 +50,9 @@ class EquipeMunicipaleTest {
         eq = new EquipeMunicipale(elu, experts, ev1, ev3, ev2);
     }
 
+    /**
+     * Cleans up the test environment after each test
+     */
     @AfterEach
     void tearDown() {
         elu = null;
@@ -47,6 +65,9 @@ class EquipeMunicipaleTest {
         eq = null;
     }
 
+    /**
+     * Tests that a simulation cycle creates projects correctly.
+     */
     @Test
     void testSimulationCycle_creeProjects() {
         // Act
@@ -56,17 +77,21 @@ class EquipeMunicipaleTest {
         Assertions.assertFalse(projets.isEmpty(), "La liste de projets devrait contenir au moins un projet après simulation.");
     }
 
+    /**
+     * Tests that the costs and benefits of projects are valid after a
+     * simulation cycle.
+     */
     @Test
-    void testSimulationCycle_Couts_et_BeneficeValides(){
+    void testSimulationCycle_Couts_et_BeneficeValides() {
         // Act
         eq.simulerCycle();
         ArrayList<Projet> projets = eq.getListeProjets();
         //Assert
-        for(Projet p : projets){
-            Assertions.assertTrue(p.getBenefice()>0);
-            Assertions.assertTrue(p.getCout_economique()>0);
-            Assertions.assertTrue(p.getCout_environnemental()>0);
-            Assertions.assertTrue(p.getCout_social()>0);
+        for (Projet p : projets) {
+            Assertions.assertTrue(p.getBenefice() > 0);
+            Assertions.assertTrue(p.getCout_economique() > 0);
+            Assertions.assertTrue(p.getCout_environnemental() > 0);
+            Assertions.assertTrue(p.getCout_social() > 0);
         }
 
     }
