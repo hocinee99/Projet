@@ -9,6 +9,7 @@ all:
 	java -cp $(JUNIT_JAR):$(BIN_DIR) main.Main
 
 clean:
-	rm -f $(BIN_DIR)/**/*.class
+	find . -name "*.class" -delete
+
 
 .PHONY: all clean

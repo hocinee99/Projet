@@ -71,48 +71,52 @@ public class HillClimbingTest {
         hillClimbing = null;
     }
 
-    // Test plateau local (aucun voisin meilleur)
     @Test
     public void resoudre_PlateauLocal() {
         hillClimbing = new HillClimbing(sac1D);
-        List<Objet> plateau = Arrays.asList(o1, o2);
+        List<Objet> plateau = new ArrayList<>();
+        plateau.add(o1);
+        plateau.add(o2);
         List<Objet> sol = hillClimbing.resoudre(plateau);
         assertEquals(10, sac1D.utiliteTotale(sol), "L'algorithme doit s'arrêter sur plateau local");
     }
-
-    // Test multi-dimensionnel
     @Test
     public void resoudre_MultiDimension() {
         hillClimbing = new HillClimbing(sac2D);
-        List<Objet> initiale = Arrays.asList(o5);
+        List<Objet> initiale = new ArrayList<>();
+        initiale.add(o5);
         List<Objet> sol = hillClimbing.resoudre(initiale);
         int utilite = sac2D.utiliteTotale(sol);
         assertTrue(utilite >= 4, "Solution multi-dimensionnelle doit respecter les contraintes");
     }
 
-    // Test local maximum (pas l'optimum global)
     @Test
     public void resoudre_LocalMaximum() {
         hillClimbing = new HillClimbing(sac1D);
-        List<Objet> initiale = Arrays.asList(o1, o2);
+        List<Objet> initiale = new ArrayList<>();
+        initiale.add(o1);
+        initiale.add(o2);
         List<Objet> sol = hillClimbing.resoudre(initiale);
         assertEquals(10, sac1D.utiliteTotale(sol), "L'algorithme doit s'arrêter au local maximum");
     }
 
-    // Test solution déjà optimale
     @Test
     public void resoudre_SolutionDejaOptimale() {
         hillClimbing = new HillClimbing(sac1D);
-        List<Objet> optimale = Arrays.asList(o1, o2, o3);
+        List<Objet> optimale = new ArrayList<>();
+        optimale.add(o1);
+        optimale.add(o2);
+        optimale.add(o3);
         List<Objet> sol = hillClimbing.resoudre(optimale);
         assertEquals(15, sac1D.utiliteTotale(sol), "Solution optimale ne doit pas être modifiée");
     }
-
-    // Test contrainte saturée
     @Test
     public void resoudre_ContrainteSaturee() {
         hillClimbing = new HillClimbing(sac1D);
-        List<Objet> saturée = Arrays.asList(o1, o2, o3);
+        List<Objet> saturée = new ArrayList<>();
+        saturée.add(o1);
+        saturée.add(o2);
+        saturée.add(o3);
         List<Objet> sol = hillClimbing.resoudre(saturée);
         assertEquals(15, sac1D.utiliteTotale(sol), "Contrainte saturée : pas d'amélioration");
     }
